@@ -1,3 +1,9 @@
+@font-face {
+    font-family: permanet;
+    src: url(../fonts/PermanentMarker-Regular.ttf);
+}
+
+
 * {
     box-sizing: border-box;
 }
@@ -83,8 +89,8 @@ canvas {
 
 .edit-container {
     grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
-    grid-template-rows: 1fr 1fr 1fr 1fr 1fr;
-    grid-template-areas: '. upDown add trash .' 'increaseFont decreaseFont left center right' 'impact impact impact stroke paint' 'imoji imoji imoji imoji imoji' '. . share . .';
+    grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr;
+    grid-template-areas: 'txt txt txt txt txt''. upDown add trash .' 'increaseFont decreaseFont left center right' 'impact impact impact stroke paint' 'imoji imoji imoji imoji imoji' '. . share . .';
 }
 
 .edit-container button:not(:last-child) {
@@ -105,7 +111,10 @@ canvas {
     width: 26px;
     height: 26px;
 }
-
+.meme-txt{
+    grid-area: txt;
+    min-width: 350px;
+}
 .up-down-btn {
     grid-area: upDown;
 }

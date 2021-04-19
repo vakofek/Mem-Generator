@@ -1,6 +1,7 @@
 'use strict';
 
-var MEMES_KEY = 'mems';
+var MEMES_KEY = 'all memes';
+var SELECTED_MEME = 'selcted meme';
 var gMemes;
 var gMeme;
 
@@ -36,9 +37,11 @@ function _createMeme(imgUrl, keyword) {
         lines: [
             {
                 txt: 'add text',
-                size: 20,
-                aligb: 'left',
-                color: 'red'
+                size: 50,
+                align: 'left',
+                color: '#FFFFFF',
+                startX:getRandomInt(50,300),
+                starty:getRandomInt(50,300)
             }
         ]
     }
@@ -64,6 +67,7 @@ function getMemes() {
 
 function updateSelectedMeme(memeId) {
     gMeme = _getMemeById(memeId);
+    saveToStorage(SELECTED_MEME, gMeme)
 }
 
 function _getMemeById(memeId) {
@@ -73,10 +77,24 @@ function _getMemeById(memeId) {
 }
 
 function getSelectedMeme() {
-    return gMeme;
+    return loadFromStorage(SELECTED_MEME);
 }
 
-
+function addText(txt) {
+    var selctedMeme = getSelectedMeme();
+    gMemes.find(function (meme) {
+        if (meme.id === selctedMeme.id)
+        selctedMeme.lines.push({
+                txt,
+                size: 50,
+                align: 'left',
+                color: '#FFFFFF',
+                startX:getRandomInt(50,300),
+                starty:getRandomInt(50,300)
+            })
+    });
+    saveToStorage(SELECTED_MEME,selctedMeme)
+}
 
 
 

@@ -16,5 +16,6 @@ function renderMemesGallery() {
 
 function onMemeSelected(memeId) {
     updateSelectedMeme(memeId);
+    console.log(getSelectedMeme());
     window.location.href='editor.html'
 }
