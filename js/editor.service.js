@@ -37,3 +37,11 @@ function decreaseFont() {
     saveToStorage(SELECTED_MEME, gSelectedMem);
 
 }
+function updateInputPlaceOlder(elTxtInput) {
+    elTxtInput.value = gSelectedMem.lines[gSelectedMem.selectedLineIdx].txt;
+}
+
+
+function updateTextInput(txt) {
+    gSelectedMem.lines[gSelectedMem.selectedLineIdx].txt = txt;
+}

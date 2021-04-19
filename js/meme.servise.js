@@ -40,7 +40,8 @@ function _createMeme(imgUrl, keyword) {
                 align: 'left',
                 color: '#FFFFFF',
                 startX: getRandomInt(50, 300),
-                starty: getRandomInt(50, 300)
+                starty: getRandomInt(50, 300),
+                isDragging: false
             }
         ]
     }
@@ -88,8 +89,11 @@ function addText(txt) {
                 size: 50,
                 align: 'left',
                 color: '#FFFFFF',
-                startX: getRandomInt(50, 300),
-                starty: getRandomInt(50, 300)
+                isDragging: false,
+                pos: {
+                    startX: getRandomInt(50, 300),
+                    starty: getRandomInt(50, 300),
+                }
             })
     });
     saveToStorage(SELECTED_MEME, selctedMeme)
