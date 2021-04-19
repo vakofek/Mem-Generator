@@ -12,7 +12,6 @@ var gKeyword = {
 
 _createMemes();
 function _createMemes() {
-    // debugger
     var memes = loadFromStorage(MEMES_KEY);
     if (!memes || !memes.length) {
         memes = [];
@@ -40,8 +39,8 @@ function _createMeme(imgUrl, keyword) {
                 size: 50,
                 align: 'left',
                 color: '#FFFFFF',
-                startX:getRandomInt(50,300),
-                starty:getRandomInt(50,300)
+                startX: getRandomInt(50, 300),
+                starty: getRandomInt(50, 300)
             }
         ]
     }
@@ -84,16 +83,16 @@ function addText(txt) {
     var selctedMeme = getSelectedMeme();
     gMemes.find(function (meme) {
         if (meme.id === selctedMeme.id)
-        selctedMeme.lines.push({
+            selctedMeme.lines.push({
                 txt,
                 size: 50,
                 align: 'left',
                 color: '#FFFFFF',
-                startX:getRandomInt(50,300),
-                starty:getRandomInt(50,300)
+                startX: getRandomInt(50, 300),
+                starty: getRandomInt(50, 300)
             })
     });
-    saveToStorage(SELECTED_MEME,selctedMeme)
+    saveToStorage(SELECTED_MEME, selctedMeme)
 }
 
 
