@@ -39,9 +39,12 @@ function _createMeme(imgUrl, keyword) {
                 size: 50,
                 align: 'left',
                 color: '#FFFFFF',
-                startX: getRandomInt(50, 300),
-                starty: getRandomInt(50, 300),
-                isDragging: false
+                pos: {
+                    startX: window.width / 2,
+                    startY: 100
+                },
+                isDragging: false,
+                isSelected: false
             }
         ]
     }
@@ -90,9 +93,10 @@ function addText(txt) {
                 align: 'left',
                 color: '#FFFFFF',
                 isDragging: false,
+                isSelected: false,
                 pos: {
-                    startX: getRandomInt(50, 300),
-                    starty: getRandomInt(50, 300),
+                    startX: window.width / 2,
+                    startY: 100,
                 }
             })
     });

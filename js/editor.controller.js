@@ -25,11 +25,12 @@ function renderCanvas() {
     img.onload = function () {
         gCtx.drawImage(img, 0, 0, gCanvas.width, gCanvas.height);
         gSelectedMem.lines.forEach(function (line) {
+            // if (line.isSelected) return;
             var txt = line.txt;
             if (!txt) txt = '';
             gCtx.font = line.size + 'px  Impact';
             gCtx.fillStyle = line.color;
-            gCtx.fillText(txt, line.pos.startX, line.pos.startX);
+            gCtx.fillText(txt, line.pos.startX, line.pos.startY);
         });
     }
     img.src = gSelectedMem.imgUrl;
@@ -51,6 +52,7 @@ function renderEditor() {
             <button class="paint-btn"><img src="icons/paint-board-and-brush.png"></button>
             <select class="imoji-select" name="" id="">Imoji</select>
             <button class="share-btn">Share</button>
+            <button class="download-btn">Download</button>
     `;
     document.querySelector('.edit-container').innerHTML = strHTML;
 }
@@ -96,10 +98,6 @@ function onDecreaseFont() {
 function addListeners() {
     addMouseListeners()
     addTouchListeners()
-    // window.addEventListener('resize', () => {
-    //     resizeCanvas()
-    //     renderCanvas()
-    // })
 }
 
 function addMouseListeners() {
@@ -116,7 +114,6 @@ function addTouchListeners() {
 
 function onDown(ev) {
     const pos = getEvPos(ev)
-    // if (!isCirlceClicked(pos)) return   $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
     gSelectedMem.lines[gSelectedMem.selectedLineIdx].isDragging = true
     gStartPos = pos
     document.body.style.cursor = 'grabbing'
@@ -124,7 +121,6 @@ function onDown(ev) {
 }
 
 function getEvPos(ev) {
-    // debugger
     const pos = {
         x: ev.offsetX,
         y: ev.offsetY
@@ -134,10 +130,6 @@ function getEvPos(ev) {
         ev = ev.changedTouches[0]
         pos.x = ev.pageX - ev.target.offsetLeft - ev.target.clientLeft;
         pos.y = ev.pageY - ev.target.offsetTop - ev.target.clientTop
-        // pos = {
-        //     x: ev.pageX - ev.target.offsetLeft - ev.target.clientLeft,
-        //     y: ev.pageY - ev.target.offsetTop - ev.target.clientTop
-        // }
     }
     return pos
 }
@@ -145,21 +137,20 @@ function getEvPos(ev) {
 function onMove(ev) {
     if (gSelectedMem.lines[gSelectedMem.selectedLineIdx].isDragging) {
         const pos = getEvPos(ev)
-        const dx = pos.x - gStartPos.x
-        const dy = pos.y - gStartPos.y
-
-        console.log(pos);
-        gSelectedMem.lines[gSelectedMem.selectedLineIdx].pos.startX += dx
-        gSelectedMem.lines[gSelectedMem.selectedLineIdx].pos.startY += dy
-
-        // gCircle.pos = pos
+        gSelectedMem.lines[gSelectedMem.selectedLineIdx].pos.startX = pos.x
+        gSelectedMem.lines[gSelectedMem.selectedLineIdx].pos.startY = pos.y
+        saveToStorage(SELECTED_MEME, gSelectedMem);
         gStartPos = pos
         renderCanvas()
-        // renderCircle()
     }
 }
 
-function onUp() {
+function onUp(ev) {
+    var pos = getEvPos(ev);
     gSelectedMem.lines[gSelectedMem.selectedLineIdx].isDragging = false
     document.body.style.cursor = 'grab'
 }
+
+// function renderText(pos) {
+//     gCtx.fillText(gSelectedMem.lines[gSelectedMem.selectedLineIdx].txt, pos.x, pos.y)
+// }

@@ -19,6 +19,8 @@ function changeTextLine() {
     var currIdx = gSelectedMem.selectedLineIdx
     gSelectedMem.lines[currIdx].color = 'red';
     gSelectedMem.lines[gPreveLineIdx].color = '#FFFFFF';
+    gSelectedMem.lines[currIdx].isSelected = true;
+    gSelectedMem.lines[gPreveLineIdx].isSelected = false;
     saveToStorage(SELECTED_MEME, gSelectedMem);
 }
 
