@@ -38,12 +38,18 @@ button {
 
 /* all */
 
+.main-header {
+    min-width: 350px;
+    height: 65px;
+    background-color: #ff7f00;
+}
+
 .logo {
     width: 133px;
     height: 22px;
 }
 
-.gallery-container{
+.gallery-container {
     grid-template-columns: auto auto;
 }
 
@@ -56,4 +62,106 @@ button {
 .contact-area img {
     width: 322px;
     height: 322px;
+}
+
+.footer-container{
+    min-width: 350px;
+    height: 205px;
+    background-color: #ff7f00;
+    text-align: center;
+}
+
+
+
+
+
+/* editor page */
+
+canvas {
+    border: 1px solid black;
+}
+
+.edit-container {
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr 1fr 1fr;
+    grid-template-areas: '. upDown add trash .' 'increaseFont decreaseFont left center right' 'impact impact impact stroke paint' 'imoji imoji imoji imoji imoji' '. . share . .';
+}
+
+.edit-container button:not(:last-child) {
+    width: 40px;
+    height: 41px;
+    border-radius: 12px;
+    background-color: #ffffff;
+}
+
+.share-btn {
+    width: 120px;
+    height: 40px;
+    border-radius: 12px;
+    background-color: #ff7f00;
+}
+
+.edit-container img {
+    width: 26px;
+    height: 26px;
+}
+
+.up-down-btn {
+    grid-area: upDown;
+}
+
+.add-btn {
+    grid-area: add;
+}
+
+.trash-btn {
+    grid-area: trash;
+}
+
+.increase-font-btn {
+    grid-area: increaseFont;
+}
+
+.decrease-font-btn {
+    grid-area: decreaseFont;
+}
+
+.left-btn {
+    grid-area: left;
+}
+
+.center-btn {
+    grid-area: center;
+}
+
+.right-btn {
+    grid-area: right;
+}
+
+.impact-select {
+    grid-area: impact;
+    width: 171px;
+    height: 40px;
+    border-radius: 12px;
+    background-color: #ffffff;
+}
+
+.stroke-btn {
+    grid-area: stroke;
+}
+
+.paint-btn {
+    grid-area: paint;
+}
+
+.imoji-select {
+    grid-area: imoji;
+    width: 303px;
+    height: 55px;
+    border-radius: 12px;
+    background-color: #ffffff;
+}
+
+.share-btn {
+    grid-area: share;
 }
