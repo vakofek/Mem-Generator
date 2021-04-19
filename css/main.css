@@ -1,0 +1,59 @@
+* {
+    box-sizing: border-box;
+}
+
+/* Basic */
+
+button {
+    cursor: pointer;
+}
+
+/* Helper */
+
+.clean-list {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+.flex {
+    display: flex;
+}
+
+.flex-col {
+    flex-direction: column;
+}
+
+.flex-warp {
+    flex-wrap: wrap;
+}
+
+.grid {
+    display: grid;
+}
+
+.inline-grid {
+    display: inline-grid;
+}
+
+/* all */
+
+.logo {
+    width: 133px;
+    height: 22px;
+}
+
+.gallery-container{
+    grid-template-columns: auto auto;
+}
+
+.gallery-container img {
+    width: 165px;
+    height: 163px;
+    padding: 10px;
+}
+
+.contact-area img {
+    width: 322px;
+    height: 322px;
+}
