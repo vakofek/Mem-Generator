@@ -3,6 +3,11 @@
     src: url(../fonts/PermanentMarker-Regular.ttf);
 }
 
+@font-face {
+    font-family: montserrat;
+    src: url(../fonts/Montserrat-Regular.ttf);
+}
+
 * {
     box-sizing: border-box;
 }
@@ -15,6 +20,13 @@ button {
 
 /* Helper */
 
+.container {
+    /* min-width: 350px; */
+    margin: 0 auto;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
 .clean-list {
     list-style-type: none;
     margin: 0;
@@ -23,6 +35,18 @@ button {
 
 .flex {
     display: flex;
+}
+
+.align-center {
+    align-items: center;
+}
+
+.justify-center{
+    justify-content: center;
+}
+
+.space-between{
+    justify-content: space-between;
 }
 
 .flex-col {
@@ -44,7 +68,7 @@ button {
 /* all */
 
 .main-header {
-    min-width: 350px;
+    /* min-width: 350px; */
     height: 65px;
     background-color: #ff7f00;
 }
@@ -54,30 +78,69 @@ button {
     height: 22px;
 }
 
-.search-key li{
+.search-key li {
     padding: 10px;
 }
 
 .gallery-container {
+    display: grid;
     grid-template-columns: auto auto;
+    justify-content: center;
 }
 
 .gallery-container img {
     width: 165px;
-    height: 163px;
+    height: 165px;
     padding: 10px;
 }
 
+.contact-detailes-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.contact-area {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
 .contact-area img {
-    width: 322px;
-    height: 322px;
+    /* margin-left: 25vw; */
+    width: 200px;
+    height: 200px;
+}
+
+.contact-area h3 {
+    text-align: center;
+    color: #ff7f00;
+    font-family: montserrat sans-serif;
+}
+
+.contact-area p {
+    text-align: center;
+    width: 200px;
+}
+
+.social-area i {
+    padding: 10px;
+    font-size: 30px;
+    color: #ff7f00;
+    ;
 }
 
 .footer-container {
-    min-width: 350px;
     height: 205px;
     background-color: #ff7f00;
     text-align: center;
+}
+
+.footer-container .logo {
+    margin: 10px;
+}
+
+.footer-container span {
+    color: white;
 }
 
 /* editor page */
@@ -180,3 +243,20 @@ canvas {
     border-radius: 12px;
     background-color: #ff7f00;
 }
+
+/* MEDIA */
+
+@media (min-width: 300px) {}
+
+@media (min-width: 600px) {
+    .gallery-container {
+        display: flex;
+        flex-wrap: wrap;
+    }
+    .contact-area {
+        flex-direction: row;
+        justify-content: center;
+    }
+}
+
+@media (min-width: 1100px) {}

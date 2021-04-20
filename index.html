@@ -6,12 +6,13 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Meme Gen</title>
+    <script src="https://kit.fontawesome.com/76a6694072.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="css/main.css">
 </head>
 
 <body onload="onInitGallery()">
 
-    <header class="main-header">
+    <header class="main-header container flex align-center">
         <div class="nav-container flex">
             <div><img class="logo" src="img/LOGO.png" /></div>
             <ul class="main-nav clean-list flex">
@@ -23,27 +24,30 @@
         </div>
     </header>
 
-    <main>
-        <div class="search-container flex flex-col">
+    <main class="container">
+        <div class="search-container flex flex-col ">
             <input type="text" placeholder="Enter search keyword">
-            <ul class="search-key clean-list flex flex-warp"></ul>
+            <ul class="search-key clean-list flex flex-warp align-center"></ul>
         </div>
 
-        <div class="gallery-container inline-grid"></div>
+        <div class="gallery-container"></div>
 
         <div class="contact-area">
-            <img src="img/me.jpeg" alt="">
-            <h3>Ofek Vaknin</h3>
-            <p>my nam dcjhkib ncudis nujnicds nbuilnds bycbdsb niondcs bibsdc</p>
-            <ul class="social-area clean-list">
-                <li ><a href=""></a>fa</li>
-                <li><a href=""></a>li</li>
-                <li><a href=""></a>git</li>
-            </ul>
+            <img src="img/me1.jpg" alt="">
+            <div class="contact-detailes-container">
+                <h3>Ofek Vaknin</h3>
+                <p>my nam dcjhkib ncudis nujnicds nbuilnds bycbdsb niondcs bibsdc</p>
+                <ul class="social-area clean-list flex align-center">
+                    <li><a href=""></a><i class="fab fa-linkedin"></i></li>
+                    <li ><a href=""></a><i class="fab fa-facebook-square"></i></li>
+                    <li><a href=""></a><i class="fab fa-github-square"></i></li>
+                </ul>
+            </div>
+           
         </div>
     </main>
     <footer>
-        <div class="footer-container">
+        <div class="footer-container flex flex-col justify-center container">
             <div><img class="logo" src="img/LOGO.png" /></div>
             <span>Meme editor by Ofek Vaknin</span>
         </div>
