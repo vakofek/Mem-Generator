@@ -54,6 +54,10 @@ button {
     height: 22px;
 }
 
+.search-key li{
+    padding: 10px;
+}
+
 .gallery-container {
     grid-template-columns: auto auto;
 }

@@ -25,7 +25,6 @@ function renderCanvas() {
     img.onload = function () {
         gCtx.drawImage(img, 0, 0, gCanvas.width, gCanvas.height);
         gSelectedMem.lines.forEach(function (line) {
-            // if (line.isSelected) return;
             var txt = line.txt;
             if (!txt) txt = '';
             gCtx.font = line.size + 'px  Impact';
@@ -73,11 +72,13 @@ function onCangeTextLine() {
 }
 
 function onUpdateTextInput(txt) {
+    if (!gIsChange) return
     updateTextInput(txt);
     renderCanvas();
 }
 
 function onRemoveText() {
+    if (!gIsChange) return
     removeText();
     renderCanvas();
 }
@@ -113,6 +114,7 @@ function addTouchListeners() {
 }
 
 function onDown(ev) {
+    if (!gIsChange) return
     const pos = getEvPos(ev)
     gSelectedMem.lines[gSelectedMem.selectedLineIdx].isDragging = true
     gStartPos = pos

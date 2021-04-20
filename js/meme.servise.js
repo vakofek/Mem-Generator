@@ -2,25 +2,30 @@
 
 var MEMES_KEY = 'all memes';
 var SELECTED_MEME = 'selcted meme';
+var KEYWORD_KEY = 'keywords'
 var gMemes;
 var gMeme;
 
 var gKeyword = {
-    'happy': 5,
-    'funny': 5
-}
+    'happy': 20,
+    'funny': 20,
+    'politic': 20,
+    'pets': 20,
+    'qute': 20,
+    'funny': 20,
+    'boring': 20,
+    'evil': 20,
+    'love': 20,
+    'chears': 20,
+    'toys': 20
+};
+
 
 _createMemes();
 function _createMemes() {
     var memes = loadFromStorage(MEMES_KEY);
     if (!memes || !memes.length) {
-        memes = [];
-        memes.push(_createMeme(1, 'happy'));
-        memes.push(_createMeme(2, 'happy'));
-        memes.push(_createMeme(3, 'funny'));
-        memes.push(_createMeme(4, 'happy'));
-        memes.push(_createMeme(5, 'happy'));
-        memes.push(_createMeme(6, 'happy'));
+        memes = _getMemesFromLocalDB();
     }
     gMemes = memes;
     saveToStorage(MEMES_KEY, gMemes)
@@ -40,7 +45,7 @@ function _createMeme(imgUrl, keyword) {
                 align: 'left',
                 color: '#FFFFFF',
                 pos: {
-                    startX: window.width / 2,
+                    startX: 100,
                     startY: 100
                 },
                 isDragging: false,
@@ -95,7 +100,7 @@ function addText(txt) {
                 isDragging: false,
                 isSelected: false,
                 pos: {
-                    startX: window.width / 2,
+                    startX: 100,
                     startY: 100,
                 }
             })
@@ -103,6 +108,59 @@ function addText(txt) {
     saveToStorage(SELECTED_MEME, selctedMeme)
 }
 
+function getKeyWords() {
+    return Object.getOwnPropertyNames(gKeyword);
+}
+
+function getKeyWordSize(keyword) {
+    gKeyword = loadFromStorage(KEYWORD_KEY)
+    return gKeyword[keyword];
+}
+
+function updateKeywordSize(keyword) {
+    if (gKeyword[keyword] === 50) return;
+    gKeyword[keyword] += 5;
+    saveToStorage(KEYWORD_KEY, gKeyword)
+}
+
+function resetKeywords() {
+    if (!loadFromStorage(KEYWORD_KEY)) saveToStorage(KEYWORD_KEY, gKeyword);
+}
+
+function getKeyWordsLength() {
+    return getKeyWords().length;
+}
+
+
+
+
+
+
+
+
+//  ******** DB **********
+function _getMemesFromLocalDB() {
+    var memes = [];
+    memes.push(_createMeme(1, 'politic'));
+    memes.push(_createMeme(2, 'pets'));
+    memes.push(_createMeme(3, 'qute'));
+    memes.push(_createMeme(4, 'pets'));
+    memes.push(_createMeme(5, 'funny'));
+    memes.push(_createMeme(6, 'happy'));
+    memes.push(_createMeme(7, 'qute'));
+    memes.push(_createMeme(8, 'boring'));
+    memes.push(_createMeme(9, 'evil'));
+    memes.push(_createMeme(10, 'politic'));
+    memes.push(_createMeme(11, 'love'));
+    memes.push(_createMeme(12, 'evil'));
+    memes.push(_createMeme(13, 'chears'));
+    memes.push(_createMeme(14, 'evil'));
+    memes.push(_createMeme(15, 'evil'));
+    memes.push(_createMeme(16, 'boring'));
+    memes.push(_createMeme(17, 'politic'));
+    memes.push(_createMeme(18, 'toys'));
+    return memes;
+}
 
 
 

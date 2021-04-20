@@ -3,6 +3,7 @@
 var gCanvas;
 var gCtx;
 var gSelectedMem;
+var gIsChange = false;
 
 var gPreveLineIdx;
 
@@ -12,6 +13,11 @@ function resetCanvas() {
 }
 
 function changeTextLine() {
+    if(gIsChange){
+        gSelectedMem.lines[ gSelectedMem.selectedLineIdx].color = '#FFFFFF';
+        gIsChange=false;
+        return;
+    }
     gPreveLineIdx = gSelectedMem.selectedLineIdx;
     gSelectedMem.selectedLineIdx++;
     if (gSelectedMem.selectedLineIdx >= gSelectedMem.lines.length) gSelectedMem.selectedLineIdx = 0;
@@ -21,6 +27,7 @@ function changeTextLine() {
     gSelectedMem.lines[gPreveLineIdx].color = '#FFFFFF';
     gSelectedMem.lines[currIdx].isSelected = true;
     gSelectedMem.lines[gPreveLineIdx].isSelected = false;
+    gIsChange=true;
     saveToStorage(SELECTED_MEME, gSelectedMem);
 }
 
