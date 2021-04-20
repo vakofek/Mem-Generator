@@ -8,12 +8,12 @@ function onInit() {
     resetCanvas();
     gSelectedMem = loadFromStorage(SELECTED_MEME);
     addListeners();
-    resizeCanvas();
+    // resizeCanvas();
     renderCanvas();
     renderEditor();
 }
 
-function toggleMenu(){
+function toggleMenu() {
     document.body.classList.toggle('menu-open');
 }
 
@@ -60,9 +60,19 @@ function renderEditor() {
             <input type="color" class="paint-btn" onchange="onUpdateFontColor(this.value)" />
             <select class="imoji-select" name="" id="">Imoji</select>
             <button class="share-btn">Share</button>
-            <button class="download-btn">Download</button>
-    `;
+            <button class="save-btn" onclick="saveCanvas()"><i class="far fa-save"></i></button>
+            <button class="download-btn"><a href="#" onclick="downloadImg(this)" download="my-img.jpg">Download</a></button>
+            `;
     document.querySelector('.edit-container').innerHTML = strHTML;
+    renderEmojies();
+}
+
+function renderEmojies(){
+    var emojies=getEmojies();
+    var strHTML=emojies.map(function(emoji){
+        return `<option>${emoji}</option>`
+    });
+    document.querySelector('.imoji-select').innerHTML=strHTML.join('');
 }
 
 function onAddText() {
@@ -75,7 +85,7 @@ function onAddText() {
 
 function onCangeTextLine() {
     if (!changeTextLine()) resetPlaceOlder();
-    else{
+    else {
         var elTxtInput = document.querySelector('.meme-txt');
         updateInputPlaceOlder(elTxtInput);
         renderCanvas();
@@ -120,6 +130,11 @@ function onUpdateFont(font) {
 function onUpdateFontColor(color) {
     updateFontColor(color);
     renderCanvas();
+}
+
+function downloadImg(el) {
+    var imgContant = getCnvas().toDataURL('image/jpeg');
+    el.href = imgContant;
 }
 
 // ******* mouse and touch events  *******

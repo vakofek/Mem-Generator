@@ -65,3 +65,20 @@ function updateFontColor(color) {
     gSelectedMem.lines[gSelectedMem.selectedLineIdx].color = color;
     saveToStorage(SELECTED_MEME, gSelectedMem);
 }
+
+function getCnvas() {
+    return gCanvas;
+}
+
+function getEmojies(){
+    return gEmojies;
+}
+
+
+
+
+
+
+// ******* edito DB  *******
+
+var gEmojies=['😃','😍','😍','😴','😎','😎'];

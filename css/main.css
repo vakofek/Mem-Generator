@@ -7,6 +7,7 @@
     font-family: Montserrat;
     src: url(../fonts/Montserrat-Regular.ttf);
 }
+
 @font-face {
     font-family: Bubble;
     src: url(../fonts/BubblegumSans-Regular.ttf);
@@ -80,17 +81,18 @@ button {
     width: 133px;
     height: 22px;
 }
-.search-container{
+
+.search-container {
     flex-direction: column;
     align-items: center;
 }
-.search-container input{
+
+.search-container input {
     border: none;
     border-bottom: 1px solid black;
     width: 300px;
     text-align: center;
 }
-
 
 .search-key li {
     padding: 10px;
@@ -139,13 +141,17 @@ button {
     padding: 10px;
     font-size: 30px;
     color: #ff7f00;
-    ;
+
 }
 
 .footer-container {
     height: 205px;
     background-color: #ff7f00;
-    text-align: center;
+    /* text-align: center; */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
 .footer-container .logo {
@@ -154,6 +160,7 @@ button {
 
 .footer-container span {
     color: white;
+    font-family: Montserrat;
 }
 
 /* editor page */
@@ -165,7 +172,9 @@ canvas {
 .edit-container {
     grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
     grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr;
-    grid-template-areas: 'txt txt txt txt txt''. upDown add trash .' 'increaseFont decreaseFont left center right' 'font font font stroke paint' 'imoji imoji imoji imoji imoji' ' share share . download download';
+    grid-template-areas: 'txt txt txt txt txt''. upDown add trash .' 'increaseFont decreaseFont left center right' 'font font font stroke paint' 'imoji imoji imoji imoji imoji' ' share share save download download';
+    width: 350px;
+    justify-items: center;
 }
 
 .edit-container button:not(.share-btn, .download-btn) {
@@ -182,7 +191,7 @@ canvas {
 
 .meme-txt {
     grid-area: txt;
-    min-width: 350px;
+    width: 300px;
 }
 
 .up-down-btn {
@@ -239,6 +248,8 @@ canvas {
     height: 55px;
     border-radius: 12px;
     background-color: #ffffff;
+    font-size: 30px;
+    text-align-last:center;
 }
 
 .share-btn {
@@ -247,6 +258,18 @@ canvas {
     height: 40px;
     border-radius: 12px;
     background-color: #ff7f00;
+    color: #ffffff;
+    font-family:Montserrat ;
+}
+
+.save-btn{
+    grid-area: save;
+    border:none;
+}
+
+.save-btn i{
+    font-size: 30px;
+    color: #ff7f00;
 }
 
 .download-btn {
@@ -256,12 +279,26 @@ canvas {
     border-radius: 12px;
     background-color: #ff7f00;
 }
+.download-btn a{
+    width: 120px;
+    height: 40px;
+    text-decoration: none;
+    color: #ffffff;
+    font-family:Montserrat ;
+}
 
 /* MEDIA */
 
-@media (min-width: 300px) {}
+@media (min-width: 300px) {
+    .main-container{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+}
 
-@media (min-width: 600px) {
+@media (min-width: 700px) {
+
     .gallery-container {
         display: flex;
         flex-wrap: wrap;
@@ -270,18 +307,35 @@ canvas {
         flex-direction: row;
         justify-content: center;
     }
-    .btn-menu{
-        display: none;
+    .main-nav a {
+        margin-right: 10px;
     }
-    .main-nav a{
-         margin-right: 10px;
-    }
-    .search-container{
+    .search-container {
         flex-direction: row;
     }
 }
 
-@media (max-width: 600px) {
+@media (min-width: 1100px) {
+    .btn-menu {
+        display: none;
+    }
+    .main-container{
+        flex-direction: row;
+        justify-content: center;
+        padding: 10vh;
+    }
+    canvas{
+        width: 500px;
+        height: 500px;
+    }
+    .main-nav{
+        font-family: Montserrat;
+        color: #ffffff;
+        cursor: pointer;
+    }
+}
+
+@media (max-width: 1100px) {
     .main-screen {
         position: fixed;
         top: 0;
@@ -290,13 +344,11 @@ canvas {
         height: 100%;
         background-color: rgba(0, 0, 0, .5);
         cursor: pointer;
-
         pointer-events: none;
         opacity: 0;
         transition: opacity 0.4s;
     }
-    
-    body.menu-open .main-screen{
+    body.menu-open .main-screen {
         pointer-events: unset;
         opacity: 1;
     }
