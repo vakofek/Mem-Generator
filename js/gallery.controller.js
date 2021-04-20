@@ -9,6 +9,10 @@ function onInitGallery() {
     renderSearch(3)
 }
 
+function toggleMenu(){
+    document.body.classList.toggle('menu-open');
+}
+
 function renderSearch(keyNums) {
     var keyword = getKeyWords();
     var strHTML = `<li style="font-size:25px" class="search-more" onclick="renderMemesGallery()">All</li>`;
@@ -22,7 +26,6 @@ function renderSearch(keyNums) {
 
 function renderMemesGallery() {
     var memes = getMemes();
-    // console.log(memes);
     var strHTML = memes.map(function (meme) {
         return ` <div onclick="onMemeSelected('${meme.id}')" class="image-card"><img src="${meme.imgUrl}" /></div>`
     });

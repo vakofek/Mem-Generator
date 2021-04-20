@@ -40,7 +40,7 @@ function _createMeme(imgUrl, keyword) {
         keyword,
         lines: [
             {
-                txt: 'add text',
+                txt: 'EDIT ME !',
                 size: 50,
                 align: 'left',
                 color: '#FFFFFF',
@@ -130,6 +130,7 @@ function resetKeywords() {
 function getKeyWordsLength() {
     return getKeyWords().length;
 }
+
 
 
 

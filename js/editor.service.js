@@ -1,10 +1,12 @@
 'use strict';
 
+var FONT_KEY = 'font';
+
 var gCanvas;
 var gCtx;
 var gSelectedMem;
 var gIsChange = false;
-
+var gCurrFont;
 var gPreveLineIdx;
 
 function resetCanvas() {
@@ -13,23 +15,17 @@ function resetCanvas() {
 }
 
 function changeTextLine() {
-    if(gIsChange){
-        gSelectedMem.lines[ gSelectedMem.selectedLineIdx].color = '#FFFFFF';
-        gIsChange=false;
-        return;
+    if (gIsChange) {
+        gIsChange = false;
+        return false;
     }
-    gPreveLineIdx = gSelectedMem.selectedLineIdx;
     gSelectedMem.selectedLineIdx++;
     if (gSelectedMem.selectedLineIdx >= gSelectedMem.lines.length) gSelectedMem.selectedLineIdx = 0;
-    else if (gPreveLineIdx >= gSelectedMem.lines.length) gPreveLineIdx = 0;
-    var currIdx = gSelectedMem.selectedLineIdx
-    gSelectedMem.lines[currIdx].color = 'red';
-    gSelectedMem.lines[gPreveLineIdx].color = '#FFFFFF';
-    gSelectedMem.lines[currIdx].isSelected = true;
-    gSelectedMem.lines[gPreveLineIdx].isSelected = false;
-    gIsChange=true;
+    gIsChange = true;
     saveToStorage(SELECTED_MEME, gSelectedMem);
+    return true;
 }
+
 
 function removeText() {
     gSelectedMem.lines.splice(gSelectedMem.selectedLineIdx, 1);
@@ -44,7 +40,6 @@ function increaseFont() {
 function decreaseFont() {
     gSelectedMem.lines[gSelectedMem.selectedLineIdx].size -= 5;
     saveToStorage(SELECTED_MEME, gSelectedMem);
-
 }
 function updateInputPlaceOlder(elTxtInput) {
     elTxtInput.value = gSelectedMem.lines[gSelectedMem.selectedLineIdx].txt;
@@ -53,4 +48,20 @@ function updateInputPlaceOlder(elTxtInput) {
 
 function updateTextInput(txt) {
     gSelectedMem.lines[gSelectedMem.selectedLineIdx].txt = txt;
+}
+
+function updateFont(font) {
+    gCurrFont = font;
+    saveToStorage(FONT_KEY, gCurrFont)
+}
+
+function getFont() {
+    gCurrFont = loadFromStorage(FONT_KEY)
+    if (!gCurrFont) return 'Impact';
+    return gCurrFont;
+}
+
+function updateFontColor(color) {
+    gSelectedMem.lines[gSelectedMem.selectedLineIdx].color = color;
+    saveToStorage(SELECTED_MEME, gSelectedMem);
 }

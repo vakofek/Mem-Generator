@@ -13,12 +13,16 @@ function onInit() {
     renderEditor();
 }
 
+function toggleMenu(){
+    document.body.classList.toggle('menu-open');
+}
 
 function resizeCanvas() {
     const elContainer = document.querySelector('.canvas-container');
     gCanvas.width = elContainer.offsetWidth
     gCanvas.height = elContainer.offsetHeight
 }
+
 
 function renderCanvas() {
     var img = new Image()
@@ -27,7 +31,7 @@ function renderCanvas() {
         gSelectedMem.lines.forEach(function (line) {
             var txt = line.txt;
             if (!txt) txt = '';
-            gCtx.font = line.size + 'px  Impact';
+            gCtx.font = line.size + 'px ' + getFont();
             gCtx.fillStyle = line.color;
             gCtx.fillText(txt, line.pos.startX, line.pos.startY);
         });
@@ -37,7 +41,7 @@ function renderCanvas() {
 
 function renderEditor() {
     var strHTML = `
-    <input class="meme-txt" type="text" onchange="onUpdateTextInput(this.value)" placeholder="Enter your text here">
+    <input class="meme-txt" type="text"  onchange="onUpdateTextInput(this.value)" placeholder="Enter your text here">
             <button class="up-down-btn" onclick="onCangeTextLine()"><img src="icons/up-and-down-opposite-double-arrows-side-by-side.png"></button>
             <button class="add-btn" onclick="onAddText()"><img src="icons/add.png"></button>
             <button class="trash-btn" onclick="onRemoveText()"><img src="icons/trash.png"></button>
@@ -46,9 +50,14 @@ function renderEditor() {
             <button class="left-btn"><img src="icons/align-to-left.png"></button>
             <button class="center-btn"><img src="icons/center-text-alignment.png"></button>
             <button class="right-btn"><img src="icons/align-to-right.png"></button>
-            <select class="impact-select" name="" id="">Impact</select>
+            <select class="font-select" onchange="onUpdateFont(this.value)">
+            <option value="Impact">Impact</option>
+            <option value="Permanet">Permanet</option>
+            <option value="Montserrat">Montserrat</option>
+            <option value="Bubble">Bubble</option>
+            </select>
             <button class="stroke-btn"><img src="icons/text stroke.png"></button>
-            <button class="paint-btn"><img src="icons/paint-board-and-brush.png"></button>
+            <input type="color" class="paint-btn" onchange="onUpdateFontColor(this.value)" />
             <select class="imoji-select" name="" id="">Imoji</select>
             <button class="share-btn">Share</button>
             <button class="download-btn">Download</button>
@@ -65,10 +74,12 @@ function onAddText() {
 }
 
 function onCangeTextLine() {
-    changeTextLine();
-    var elTxtInput = document.querySelector('.meme-txt');
-    updateInputPlaceOlder(elTxtInput);
-    renderCanvas();
+    if (!changeTextLine()) resetPlaceOlder();
+    else{
+        var elTxtInput = document.querySelector('.meme-txt');
+        updateInputPlaceOlder(elTxtInput);
+        renderCanvas();
+    }
 }
 
 function onUpdateTextInput(txt) {
@@ -80,7 +91,14 @@ function onUpdateTextInput(txt) {
 function onRemoveText() {
     if (!gIsChange) return
     removeText();
+    resetPlaceOlder()
     renderCanvas();
+
+}
+
+function resetPlaceOlder() {
+    document.querySelector('.meme-txt').placeholder = 'Enter your text here';
+    renderEditor();
 }
 
 function onIncreaseFont() {
@@ -93,6 +111,16 @@ function onDecreaseFont() {
     renderCanvas();
 }
 
+function onUpdateFont(font) {
+    updateFont(font);
+    renderCanvas();
+    console.log(getFont());
+}
+
+function onUpdateFontColor(color) {
+    updateFontColor(color);
+    renderCanvas();
+}
 
 // ******* mouse and touch events  *******
 
@@ -128,7 +156,7 @@ function getEvPos(ev) {
         y: ev.offsetY
     }
     if (gTouchEvs.includes(ev.type)) {
-        ev.preventDefault()
+        ev.preventDefault();
         ev = ev.changedTouches[0]
         pos.x = ev.pageX - ev.target.offsetLeft - ev.target.clientLeft;
         pos.y = ev.pageY - ev.target.offsetTop - ev.target.clientTop
@@ -152,7 +180,3 @@ function onUp(ev) {
     gSelectedMem.lines[gSelectedMem.selectedLineIdx].isDragging = false
     document.body.style.cursor = 'grab'
 }
-
-// function renderText(pos) {
-//     gCtx.fillText(gSelectedMem.lines[gSelectedMem.selectedLineIdx].txt, pos.x, pos.y)
-// }
