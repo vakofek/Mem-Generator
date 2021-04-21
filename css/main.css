@@ -90,6 +90,7 @@ button {
 .search-container {
     flex-direction: column;
     align-items: center;
+    margin-top: 25px;
 }
 
 .search-container input {
@@ -140,6 +141,7 @@ button {
 .contact-area p {
     text-align: center;
     width: 200px;
+    font-family: Bubble;
 }
 
 .social-area i {
@@ -194,8 +196,12 @@ canvas {
 }
 
 .meme-txt {
+    text-align: center;
     grid-area: txt;
     width: 300px;
+    border-radius: 20px;
+    padding: 0px;
+    margin: 15px;
 }
 
 .up-down-btn {
@@ -264,11 +270,13 @@ canvas {
     background-color: #ff7f00;
     color: #ffffff;
     font-family: Montserrat;
+    margin:10px;
 }
 
 .save-btn {
     grid-area: save;
     border: none;
+    margin:10px;
 }
 
 .save-btn i {
@@ -282,6 +290,7 @@ canvas {
     height: 40px;
     border-radius: 12px;
     background-color: #ff7f00;
+    margin:10px;
 }
 
 .download-btn a {
@@ -436,3 +445,4 @@ body.memes-open .saved-memes-container {
 body.editor-open .main-container {
     display: flex;
 }
+
