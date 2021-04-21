@@ -70,10 +70,13 @@ function getCnvas() {
     return gCanvas;
 }
 
-function getEmojies(){
+function getEmojies() {
     return gEmojies;
 }
 
+function getEmoji(emojiIdx) {
+    return (gEmojies[emojiIdx]);
+}
 
 
 
@@ -81,4 +84,4 @@ function getEmojies(){
 
 // ******* edito DB  *******
 
-var gEmojies=['😃','😍','😍','😴','😎','😎'];
+var gEmojies = ['😃', '😍', '😍', '😴', '😎', '😎'];

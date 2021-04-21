@@ -58,7 +58,7 @@ function renderEditor() {
             </select>
             <button class="stroke-btn"><img src="icons/text stroke.png"></button>
             <input type="color" class="paint-btn" onchange="onUpdateFontColor(this.value)" />
-            <select class="imoji-select" name="" id="">Imoji</select>
+            <select class="imoji-select" onchange="onAddStickers(this.value)">Imoji</select>
             <button class="share-btn">Share</button>
             <button class="save-btn" onclick="saveCanvas()"><i class="far fa-save"></i></button>
             <button class="download-btn"><a href="#" onclick="downloadImg(this)" download="my-img.jpg">Download</a></button>
@@ -67,17 +67,18 @@ function renderEditor() {
     renderEmojies();
 }
 
-function renderEmojies(){
-    var emojies=getEmojies();
-    var strHTML=emojies.map(function(emoji){
-        return `<option>${emoji}</option>`
+function renderEmojies() {
+    var emojies = getEmojies();
+    var strHTML = emojies.map(function (emoji, idx) {
+        return `<option value="${idx}">${emoji}</option>`
     });
-    document.querySelector('.imoji-select').innerHTML=strHTML.join('');
+    document.querySelector('.imoji-select').innerHTML = strHTML.join('');
 }
 
 function onAddText() {
     var elTxtInput = document.querySelector('.meme-txt');
     var txt = elTxtInput.value;
+    if (!txt) return;
     addText(txt);
     renderEditor();
     location.reload();
@@ -135,6 +136,13 @@ function onUpdateFontColor(color) {
 function downloadImg(el) {
     var imgContant = getCnvas().toDataURL('image/jpeg');
     el.href = imgContant;
+}
+
+function onAddStickers(emojiIdx) {
+    var emoji = getEmoji(emojiIdx);
+    addText(emoji);
+    renderEditor();
+    location.reload();
 }
 
 // ******* mouse and touch events  *******
