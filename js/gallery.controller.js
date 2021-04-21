@@ -1,6 +1,7 @@
 'use strict';
 
 var gShowMode;
+var gIsSavedMemes=false;
 
 function onInitGallery() {
     gShowMode = false;
@@ -27,16 +28,23 @@ function renderSearch(keyNums) {
 function renderMemesGallery() {
     var memes = getMemes();
     var strHTML = memes.map(function (meme) {
-        return ` <div onclick="onMemeSelected('${meme.id}')" class="image-card"><img src="${meme.imgUrl}" /></div>`
+        return ` <div onclick="onMemeSelected('${meme.id}','gallery')" class="image-card"><img src="${meme.imgUrl}" /></div>`
     });
-    var elGallery = document.querySelector('.gallery-container');
+    var elGallery = document.querySelector('.memes-container');
     elGallery.innerHTML = strHTML.join('');
 }
 
-function onMemeSelected(memeId) {
+function onMemeSelected(memeId,galleryType) {
+    if(!gIsEditorMode) toggelEditor();
     updateSelectedMeme(memeId);
-    console.log(getSelectedMeme());
-    window.location.href = 'editor.html'
+    resetCanvas();
+    gSelectedMem = loadFromStorage(SELECTED_MEME);
+    addListeners();
+    renderCanvas();
+    renderEditor();
+    gIsEditorMode=true;
+    if(galleryType==='gallery') return;
+    if(gIsSavedMemes) toggleMemes();
 }
 
 function onSearchKeyword(keyword, keyNums) {
@@ -69,3 +77,36 @@ function renderFilterdGallery(keyword) {
     elGallery.innerHTML = strHTML.join('');
 
 }
+
+
+
+
+// ************************************************************
+
+function onInitMemes(){
+    gIsSavedMemes=true;
+    renderSavedMemesGallery();
+    toggleMemes();
+}
+
+function renderSavedMemesGallery(){
+    var memes=getSavedMemes();
+    var strHTML='<div class="saved-gallery-container gallery-container"> <div><button onclick="toggleMemes()">X</button></div>';
+    if(!memes || !memes.length) strHTML+=`<span>You don't have saved memes yet !<span>`
+    else{
+
+        var elMemes=memes.map(function(meme){
+            return `<div onclick="onMemeSelected('${meme.id}')" class="image-card"><img src="${meme.imgUrl}" /></div>`;
+        });
+        strHTML+=elMemes.join('');
+    }
+    strHTML+=('</div>');
+    document.querySelector('.saved-memes-container').innerHTML=strHTML;
+}
+
+function toggleMemes(){
+    document.body.classList.toggle('memes-open');
+}
+
+
+

@@ -2,6 +2,7 @@
 
 var gCurrMeme;
 var gStartPos;
+var gIsEditorMode=false;
 const gTouchEvs = ['touchstart', 'touchmove', 'touchend']
 
 function onInit() {
@@ -17,6 +18,10 @@ function toggleMenu() {
     document.body.classList.toggle('menu-open');
 }
 
+function toggelEditor(){
+    document.body.classList.toggle('editor-open');
+}
+
 function resizeCanvas() {
     const elContainer = document.querySelector('.canvas-container');
     gCanvas.width = elContainer.offsetWidth
@@ -25,31 +30,33 @@ function resizeCanvas() {
 
 
 function renderCanvas() {
+    // debugger
     var img = new Image()
+    var selectedMeme=getSelectedMeme();
     img.onload = function () {
         gCtx.drawImage(img, 0, 0, gCanvas.width, gCanvas.height);
-        gSelectedMem.lines.forEach(function (line) {
+        selectedMeme.lines.forEach(function (line,idx) {
             var txt = line.txt;
-            if (!txt) txt = '';
-            gCtx.font = line.size + 'px ' + getFont();
+            gCtx.font = line.size + 'px '+getFont(idx) ;
             gCtx.fillStyle = line.color;
+            gCtx.textAlign=line.align
             gCtx.fillText(txt, line.pos.startX, line.pos.startY);
         });
     }
-    img.src = gSelectedMem.imgUrl;
+    img.src = selectedMeme.imgUrl;
 }
 
 function renderEditor() {
     var strHTML = `
-    <input class="meme-txt" type="text"  onchange="onUpdateTextInput(this.value)" placeholder="Enter your text here">
+    <input class="meme-txt" type="text"  oninput="onUpdateTextInput(this.value)" placeholder="Enter your text here">
             <button class="up-down-btn" onclick="onCangeTextLine()"><img src="icons/up-and-down-opposite-double-arrows-side-by-side.png"></button>
             <button class="add-btn" onclick="onAddText()"><img src="icons/add.png"></button>
             <button class="trash-btn" onclick="onRemoveText()"><img src="icons/trash.png"></button>
             <button class="increase-font-btn" onclick="onIncreaseFont()"><img src="icons/increase font - icon.png"></button>
             <button class="decrease-font-btn" onclick="onDecreaseFont()"><img src="icons/decrease font - icon.png"></button>
-            <button class="left-btn"><img src="icons/align-to-left.png"></button>
-            <button class="center-btn"><img src="icons/center-text-alignment.png"></button>
-            <button class="right-btn"><img src="icons/align-to-right.png"></button>
+            <button class="left-btn" onclick="onAlignText('start',0)"><img src="icons/align-to-left.png"></button>
+            <button class="center-btn" onclick="onAlignText('center',${getCnvasWidth()/2})"><img src="icons/center-text-alignment.png"></button>
+            <button class="right-btn" onclick="onAlignText('end',${getCnvasWidth()})"><img src="icons/align-to-right.png"></button>
             <select class="font-select" onchange="onUpdateFont(this.value)">
             <option value="Impact">Impact</option>
             <option value="Permanet">Permanet</option>
@@ -60,11 +67,17 @@ function renderEditor() {
             <input type="color" class="paint-btn" onchange="onUpdateFontColor(this.value)" />
             <select class="imoji-select" onchange="onAddStickers(this.value)">Imoji</select>
             <button class="share-btn">Share</button>
-            <button class="save-btn" onclick="saveCanvas()"><i class="far fa-save"></i></button>
+            <button class="save-btn" onclick="OnSaveCanvas()"><i class="far fa-save"></i></button>
             <button class="download-btn"><a href="#" onclick="downloadImg(this)" download="my-img.jpg">Download</a></button>
             `;
     document.querySelector('.edit-container').innerHTML = strHTML;
     renderEmojies();
+}
+
+function onAlignText(align,posX){
+    if (canPress()) return;
+    alignText(align,posX);
+    renderCanvas();
 }
 
 function renderEmojies() {
@@ -80,8 +93,9 @@ function onAddText() {
     var txt = elTxtInput.value;
     if (!txt) return;
     addText(txt);
+    gSelectedMem=loadFromStorage(SELECTED_MEME);
     renderEditor();
-    location.reload();
+    renderCanvas();
 }
 
 function onCangeTextLine() {
@@ -89,18 +103,18 @@ function onCangeTextLine() {
     else {
         var elTxtInput = document.querySelector('.meme-txt');
         updateInputPlaceOlder(elTxtInput);
-        renderCanvas();
     }
+    renderCanvas();
 }
 
 function onUpdateTextInput(txt) {
-    if (!gIsChange) return
+    if (canPress()) return
     updateTextInput(txt);
     renderCanvas();
 }
 
 function onRemoveText() {
-    if (!gIsChange) return
+    if (canPress()) return
     removeText();
     resetPlaceOlder()
     renderCanvas();
@@ -113,22 +127,25 @@ function resetPlaceOlder() {
 }
 
 function onIncreaseFont() {
+    if (canPress()) return;
     increaseFont();
     renderCanvas();
 }
 
 function onDecreaseFont() {
+    if (!gIsChange) return;
     decreaseFont();
     renderCanvas();
 }
 
 function onUpdateFont(font) {
+    if (canPress()) return
     updateFont(font);
     renderCanvas();
-    console.log(getFont());
 }
 
 function onUpdateFontColor(color) {
+    if (canPress()) return
     updateFontColor(color);
     renderCanvas();
 }
@@ -138,12 +155,20 @@ function downloadImg(el) {
     el.href = imgContant;
 }
 
+function OnSaveCanvas(){
+    saveCanvas();
+    gIsEditorMode=false;
+    toggelEditor();
+}
+
 function onAddStickers(emojiIdx) {
     var emoji = getEmoji(emojiIdx);
     addText(emoji);
     renderEditor();
-    location.reload();
+    gSelectedMem=loadFromStorage(SELECTED_MEME);
+    renderCanvas();
 }
+
 
 // ******* mouse and touch events  *******
 
@@ -170,7 +195,6 @@ function onDown(ev) {
     gSelectedMem.lines[gSelectedMem.selectedLineIdx].isDragging = true
     gStartPos = pos
     document.body.style.cursor = 'grabbing'
-
 }
 
 function getEvPos(ev) {
@@ -203,3 +227,4 @@ function onUp(ev) {
     gSelectedMem.lines[gSelectedMem.selectedLineIdx].isDragging = false
     document.body.style.cursor = 'grab'
 }
+

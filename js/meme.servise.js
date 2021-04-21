@@ -3,7 +3,10 @@
 var MEMES_KEY = 'all memes';
 var SELECTED_MEME = 'selcted meme';
 var KEYWORD_KEY = 'keywords'
+var SAVED_MEMES = 'saved memes';
+
 var gMemes;
+var gSavedMemes;
 var gMeme;
 
 var gKeyword = {
@@ -20,7 +23,7 @@ var gKeyword = {
     'toys': 20
 };
 
-
+_loadSavedMems();
 _createMemes();
 function _createMemes() {
     var memes = loadFromStorage(MEMES_KEY);
@@ -41,12 +44,14 @@ function _createMeme(imgUrl, keyword) {
         lines: [
             {
                 txt: 'EDIT ME !',
-                size: 50,
-                align: 'left',
+                size: 30,
+                font: 'Impact',
+                align: 'center',
                 color: '#FFFFFF',
                 pos: {
-                    startX: 100,
-                    startY: 100
+                    startX: 175,
+                    startY: 100,
+                    length: 173.608
                 },
                 isDragging: false,
                 isSelected: false
@@ -55,7 +60,9 @@ function _createMeme(imgUrl, keyword) {
     }
 }
 
-
+function _loadSavedMems() {
+    gSavedMemes = loadFromStorage(SAVED_MEMES);
+}
 
 
 var gImgs = [{
@@ -79,9 +86,16 @@ function updateSelectedMeme(memeId) {
 }
 
 function _getMemeById(memeId) {
-    return gMemes.find(function (meme) {
+    var meme = gMemes.find(function (meme) {
         return meme.id === memeId;
     })
+    if (!meme) {
+        meme = gSavedMemes.find(function (meme) {
+            return meme.id === memeId;
+        });
+    }
+    return meme;
+
 }
 
 function getSelectedMeme() {
@@ -94,18 +108,26 @@ function addText(txt) {
         if (meme.id === selctedMeme.id)
             selctedMeme.lines.push({
                 txt,
-                size: 50,
-                align: 'left',
+                size: 30,
+                font: 'Impact',
+                align: 'center',
                 color: '#FFFFFF',
                 isDragging: false,
                 isSelected: false,
                 pos: {
-                    startX: 100,
+                    startX: 175,
                     startY: 100,
+                    length: getTextLength(txt)
                 }
             })
     });
     saveToStorage(SELECTED_MEME, selctedMeme)
+}
+
+function getTextLength(txt) {
+    var length = gCtx.measureText(txt).width;
+    console.log(length);
+    return length;
 }
 
 function getKeyWords() {
@@ -131,6 +153,9 @@ function getKeyWordsLength() {
     return getKeyWords().length;
 }
 
+function getSavedMemes() {
+    return loadFromStorage(SAVED_MEMES);
+}
 
 
 
@@ -163,19 +188,3 @@ function _getMemesFromLocalDB() {
     return memes;
 }
 
-
-
-
-// var gMeme = {
-//     id: makeId(),
-//     selectedImgId: 1,
-//     selectedLineIdx: 0,
-//     lines: [
-//         {
-//             txt: 'add text',
-//             size: 20,
-//             aligb: 'left',
-//             color: 'red'
-//         }
-//     ]
-// };
