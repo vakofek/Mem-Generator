@@ -98,9 +98,11 @@ function getCnvasWidth() {
 }
 
 function saveCanvas(){
+    // debugger
     var imgContant = getCnvas().toDataURL('image/jpeg');
     gSavedMemes=getSavedMemes();
     if(!gSavedMemes || !gSavedMemes.length) gSavedMemes=[];
+    gSelectedMem.id=makeId();
     gSelectedMem.imgUrl=imgContant;
     gSavedMemes.push(gSelectedMem);
     saveToStorage(SAVED_MEMES,gSavedMemes)

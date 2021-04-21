@@ -75,7 +75,7 @@ function renderEditor() {
 }
 
 function onAlignText(align,posX){
-    if (canPress()) return;
+    if (!gIsChange) return;
     alignText(align,posX);
     renderCanvas();
 }
@@ -108,13 +108,13 @@ function onCangeTextLine() {
 }
 
 function onUpdateTextInput(txt) {
-    if (canPress()) return
+    if (!gIsChange) return
     updateTextInput(txt);
     renderCanvas();
 }
 
 function onRemoveText() {
-    if (canPress()) return
+    if (!gIsChange) return
     removeText();
     resetPlaceOlder()
     renderCanvas();
@@ -127,7 +127,7 @@ function resetPlaceOlder() {
 }
 
 function onIncreaseFont() {
-    if (canPress()) return;
+    if (!gIsChange) return;
     increaseFont();
     renderCanvas();
 }
@@ -139,13 +139,13 @@ function onDecreaseFont() {
 }
 
 function onUpdateFont(font) {
-    if (canPress()) return
+    if (!gIsChange) return
     updateFont(font);
     renderCanvas();
 }
 
 function onUpdateFontColor(color) {
-    if (canPress()) return
+    if (!gIsChange) return
     updateFontColor(color);
     renderCanvas();
 }
@@ -156,6 +156,7 @@ function downloadImg(el) {
 }
 
 function OnSaveCanvas(){
+    // debugger
     saveCanvas();
     gIsEditorMode=false;
     toggelEditor();
