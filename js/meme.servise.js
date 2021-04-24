@@ -41,22 +41,7 @@ function _createMeme(imgUrl, keyword) {
         selectedImgId: 1,
         selectedLineIdx: 0,
         keyword,
-        lines: [
-            {
-                txt: 'EDIT ME !',
-                size: 30,
-                font: 'Impact',
-                align: 'center',
-                color: '#FFFFFF',
-                pos: {
-                    startX: 175,
-                    startY: 100,
-                    length: 173.608
-                },
-                isDragging: false,
-                isSelected: false
-            }
-        ]
+        lines:[]
     }
 }
 
@@ -121,12 +106,12 @@ function addText(txt) {
                 }
             })
     });
-    saveToStorage(SELECTED_MEME, selctedMeme)
+    saveToStorage(SELECTED_MEME, selctedMeme);
 }
 
 function getTextLength(txt) {
     var length = gCtx.measureText(txt).width;
-    console.log(length);
+
     return length;
 }
 

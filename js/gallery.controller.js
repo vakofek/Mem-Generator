@@ -35,6 +35,7 @@ function renderMemesGallery() {
 }
 
 function onMemeSelected(memeId,galleryType) {
+    window.location.href='#';
     if(!gIsEditorMode) toggelEditor();
     updateSelectedMeme(memeId);
     resetCanvas();
@@ -44,7 +45,9 @@ function onMemeSelected(memeId,galleryType) {
     renderEditor();
     gIsEditorMode=true;
     if(galleryType==='gallery') return;
-    if(gIsSavedMemes) toggleMemes();
+    if(gIsSavedMemes) {
+        toggleMemes();
+    } 
 }
 
 function onSearchKeyword(keyword, keyNums) {
@@ -87,6 +90,7 @@ function onInitMemes(){
     gIsSavedMemes=true;
     renderSavedMemesGallery();
     toggleMemes();
+    toggleMenu()
 }
 
 function renderSavedMemesGallery(){

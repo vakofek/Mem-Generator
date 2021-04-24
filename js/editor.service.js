@@ -98,7 +98,6 @@ function getCnvasWidth() {
 }
 
 function saveCanvas(){
-    // debugger
     var imgContant = getCnvas().toDataURL('image/jpeg');
     gSavedMemes=getSavedMemes();
     if(!gSavedMemes || !gSavedMemes.length) gSavedMemes=[];
@@ -118,4 +117,4 @@ function canPress(){
 
 // ******* edito DB  *******
 
-var gEmojies = ['😃', '😍', '😍', '😴', '😎', '😎'];
+var gEmojies = ['😃', '😍', '😍', '😴', '😎'];

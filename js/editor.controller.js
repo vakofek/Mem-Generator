@@ -2,14 +2,13 @@
 
 var gCurrMeme;
 var gStartPos;
-var gIsEditorMode=false;
+var gIsEditorMode = false;
 const gTouchEvs = ['touchstart', 'touchmove', 'touchend']
 
 function onInit() {
     resetCanvas();
-    gSelectedMem = loadFromStorage(SELECTED_MEME);
+    gSelectedMem = lo5adFromStorage(SELECTED_MEME);
     addListeners();
-    // resizeCanvas();
     renderCanvas();
     renderEditor();
 }
@@ -18,30 +17,24 @@ function toggleMenu() {
     document.body.classList.toggle('menu-open');
 }
 
-function toggelEditor(){
+function toggelEditor() {
     document.body.classList.toggle('editor-open');
 }
 
-function resizeCanvas() {
-    const elContainer = document.querySelector('.canvas-container');
-    gCanvas.width = elContainer.offsetWidth
-    gCanvas.height = elContainer.offsetHeight
-}
-
-
 function renderCanvas() {
-    // debugger
     var img = new Image()
-    var selectedMeme=getSelectedMeme();
+    var selectedMeme = getSelectedMeme();
     img.onload = function () {
         gCtx.drawImage(img, 0, 0, gCanvas.width, gCanvas.height);
-        selectedMeme.lines.forEach(function (line,idx) {
-            var txt = line.txt;
-            gCtx.font = line.size + 'px '+getFont(idx) ;
-            gCtx.fillStyle = line.color;
-            gCtx.textAlign=line.align
-            gCtx.fillText(txt, line.pos.startX, line.pos.startY);
-        });
+        if (selectedMeme.lines) {
+            selectedMeme.lines.forEach(function (line, idx) {
+                var txt = line.txt;
+                gCtx.font = line.size + 'px ' + getFont(idx);
+                gCtx.fillStyle = line.color;
+                gCtx.textAlign = line.align
+                gCtx.fillText(txt, line.pos.startX, line.pos.startY);
+            });
+        }
     }
     img.src = selectedMeme.imgUrl;
 }
@@ -55,7 +48,7 @@ function renderEditor() {
             <button class="increase-font-btn" onclick="onIncreaseFont()"><img src="icons/increase font - icon.png"></button>
             <button class="decrease-font-btn" onclick="onDecreaseFont()"><img src="icons/decrease font - icon.png"></button>
             <button class="left-btn" onclick="onAlignText('start',0)"><img src="icons/align-to-left.png"></button>
-            <button class="center-btn" onclick="onAlignText('center',${getCnvasWidth()/2})"><img src="icons/center-text-alignment.png"></button>
+            <button class="center-btn" onclick="onAlignText('center',${getCnvasWidth() / 2})"><img src="icons/center-text-alignment.png"></button>
             <button class="right-btn" onclick="onAlignText('end',${getCnvasWidth()})"><img src="icons/align-to-right.png"></button>
             <select class="font-select" onchange="onUpdateFont(this.value)">
             <option value="Impact">Impact</option>
@@ -74,9 +67,9 @@ function renderEditor() {
     renderEmojies();
 }
 
-function onAlignText(align,posX){
+function onAlignText(align, posX) {
     if (!gIsChange) return;
-    alignText(align,posX);
+    alignText(align, posX);
     renderCanvas();
 }
 
@@ -93,7 +86,7 @@ function onAddText() {
     var txt = elTxtInput.value;
     if (!txt) return;
     addText(txt);
-    gSelectedMem=loadFromStorage(SELECTED_MEME);
+    gSelectedMem = loadFromStorage(SELECTED_MEME);
     renderEditor();
     renderCanvas();
 }
@@ -155,10 +148,9 @@ function downloadImg(el) {
     el.href = imgContant;
 }
 
-function OnSaveCanvas(){
-    // debugger
+function OnSaveCanvas() {
     saveCanvas();
-    gIsEditorMode=false;
+    gIsEditorMode = false;
     toggelEditor();
 }
 
@@ -166,7 +158,7 @@ function onAddStickers(emojiIdx) {
     var emoji = getEmoji(emojiIdx);
     addText(emoji);
     renderEditor();
-    gSelectedMem=loadFromStorage(SELECTED_MEME);
+    gSelectedMem = loadFromStorage(SELECTED_MEME);
     renderCanvas();
 }
 
@@ -213,19 +205,23 @@ function getEvPos(ev) {
 }
 
 function onMove(ev) {
-    if (gSelectedMem.lines[gSelectedMem.selectedLineIdx].isDragging) {
-        const pos = getEvPos(ev)
-        gSelectedMem.lines[gSelectedMem.selectedLineIdx].pos.startX = pos.x
-        gSelectedMem.lines[gSelectedMem.selectedLineIdx].pos.startY = pos.y
-        saveToStorage(SELECTED_MEME, gSelectedMem);
-        gStartPos = pos
-        renderCanvas()
+    if (gSelectedMem.lines.length!==0) {
+        if (gSelectedMem.lines[gSelectedMem.selectedLineIdx].isDragging) {
+            const pos = getEvPos(ev)
+            gSelectedMem.lines[gSelectedMem.selectedLineIdx].pos.startX = pos.x
+            gSelectedMem.lines[gSelectedMem.selectedLineIdx].pos.startY = pos.y
+            saveToStorage(SELECTED_MEME, gSelectedMem);
+            gStartPos = pos
+            renderCanvas()
+        }
     }
 }
 
 function onUp(ev) {
-    var pos = getEvPos(ev);
-    gSelectedMem.lines[gSelectedMem.selectedLineIdx].isDragging = false
-    document.body.style.cursor = 'grab'
+    if (gSelectedMem.lines.length!==0){
+        var pos = getEvPos(ev);
+        gSelectedMem.lines[gSelectedMem.selectedLineIdx].isDragging = false
+        document.body.style.cursor = 'grab'
+    }
 }
 

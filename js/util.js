@@ -11,7 +11,6 @@ function makeId(length = 6) {
 }
 
 function makeImgUrl(name) {
-    // var updateName=name.toLowerCase();
     return `./img/${name}.jpg`
 }
 
